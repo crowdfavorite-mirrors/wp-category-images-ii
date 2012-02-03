@@ -22,10 +22,6 @@
 // 1.2     - Truncate helper method, admin notices/errors, throw error if not provided 
 //           with name in setup method call, default $pluginfile to __FILE__, bugfix around 
 //           option key in delete_option method.
-// 1.3     - Locale stuff
-//         - Fix for get_option
-// 1.31    - Attempt to cope with Win32 directory separators
-// 1.32    - Add a remove_filter method
 // ======================================================================================
 
 
@@ -116,25 +112,21 @@ class CategoryImagesII_Plugin {
 		if ( ! $name )
 			throw new exception( "Please pass the name parameter into the setup method." );
 		$this->name = $name;
-		// Attempt to handle Windows
-		$ds = ( defined( 'DIRECTORY_SEPARATOR' ) ) ? DIRECTORY_SEPARATOR : '\\';
-		$file = str_replace( $ds, '/', __FILE__ );
-		$plugin_dir = str_replace( $ds, '/', WP_PLUGIN_DIR );
 		// Setup the dir and url for this plugin/theme
-		if ( stripos( $file, 'themes' ) ) {
+		if ( stripos( __FILE__, 'themes' ) ) {
 			// This is a theme
 			$this->type = 'theme';
 			$this->dir = get_stylesheet_directory();
 			$this->url = get_stylesheet_directory_uri();
-		} elseif ( stripos( $file, $plugin_dir ) !== false ) {
+		} elseif ( stripos( __FILE__, WP_PLUGIN_DIR ) !== false ) {
 			// This is a plugin
-			$this->folder = rtrim( basename( dirname( $file ) ), '/' );
+			$this->folder = rtrim( basename( dirname( __FILE__ ) ), '/' );
 			$this->type = 'plugin';
-			$this->dir = trailingslashit( $plugin_dir ) . $this->folder;
+			$this->dir = trailingslashit( WP_PLUGIN_DIR ) . $this->folder;
 			$this->url = plugins_url( $this->folder );
 		} else {
 			// WTF?
-			error_log( 'PLUGIN/THEME ERROR: Cannot find ' . $plugin_dir . ' or "themes" in ' . $file );
+			error_log( 'PLUGIN/THEME ERROR: Cannot find ' . WP_PLUGIN_DIR . ' or "themes" in ' . __FILE__ );
 		}
 		// Suffix for enqueuing
 		$this->suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
@@ -192,21 +184,6 @@ class CategoryImagesII_Plugin {
 	 **/
 	function add_filter ($filter, $function = '', $priority = 10, $accepted_args = 1) {
 		add_filter ($filter, array (&$this, $function == '' ? $filter : $function), $priority, $accepted_args);
-	}
-
-
-	/**
-	 * De-register a WordPress filter and map it back to the calling object
-	 *
-	 * @param string $action Name of the action
-	 * @param string $function Function name (optional)
-	 * @param int $priority WordPress priority (optional)
-	 * @param int $accepted_args Number of arguments the function accepts (optional)
-	 * @return void
-	 * @author © John Godley
-	 **/
-	function remove_filter ($filter, $function = '', $priority = 10, $accepted_args = 1) {
-		remove_filter ($filter, array (&$this, $function == '' ? $filter : $function), $priority, $accepted_args);
 	}
 
 
@@ -485,7 +462,7 @@ class CategoryImagesII_Plugin {
 	 * @author Simon Wheatley
 	 **/
 	protected function url( $path ) {
-		return esc_url( trailingslashit( $this->url ) . trim( $path, '/' ) );
+		return trailingslashit( $this->url ) . trim( $path, '/' );
 	}
 	
 	/**

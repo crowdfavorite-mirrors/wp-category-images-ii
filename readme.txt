@@ -3,8 +3,8 @@ Contributors: simonwheatley
 Donate link: http://www.simonwheatley.co.uk/wordpress/
 Tags: category, taxonomy, custom taxonomy, image, tag, category images, taxonomy images, term images
 Requires at least: 3.2
-Tested up to: 3.2.1
-Stable tag: 1.33
+Tested up to: 3.2
+Stable tag: 1.31
 
 This plugin allows you to upload images for categories and custom taxonomies, and provides a template tag to show the image(s) in your theme.
 
@@ -67,10 +67,6 @@ The plugin is simple to install:
 1. Give yourself a pat on the back
 
 == Change Log ==
-
-= v1.34 2011/09/13 =
-
-* Cope better with Win32 directory separators
 
 = v1.33 2011/08/20 =
 

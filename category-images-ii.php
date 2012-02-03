@@ -4,7 +4,7 @@ Plugin Name: Category Images II
 Plugin URI: http://wordpress.org/extend/plugins/category-images-ii/
 Description: This plugin allows you to upload images for categories, and other taxonomies, and provides a template tag to show the image(s) in your theme.
 Author: Simon Wheatley
-Version: 1.34
+Version: 1.33
 Author URI: http://simonwheatley.co.uk/wordpress/
 */
 
