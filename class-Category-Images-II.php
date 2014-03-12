@@ -597,6 +597,7 @@ class CategoryImagesII extends CategoryImagesII_Plugin {
 			delete_option( 'ciii_image_names' );
 		}
 		if ( $version < 2 ) {
+/*
 			$base_dir = $this->term_images_base_dir();
 			if ( $files = glob( "$base_dir/*original*" ) ) {
 				foreach ( $files as $file ) {
@@ -616,6 +617,8 @@ class CategoryImagesII extends CategoryImagesII_Plugin {
 					$this->save_data( $term_id, $data );
 				}
 			}
+*/
+
 		}
 		update_option( $this->name . '-version', (int) $this->version );
 	}
